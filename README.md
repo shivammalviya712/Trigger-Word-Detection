@@ -9,3 +9,6 @@
 
 - Spectogram
   - [Spectogram implentation from scratch](https://fairyonice.github.io/implement-the-spectrogram-from-scratch-in-python.html)
+  - [Discrete Fourier Transform, Part 1 by Steven Brunton](https://youtu.be/bhxDXab0ffg)
+  - [Discrete Fourier Transform, Part 2 by Steven Brunton](https://youtu.be/PsEsMIPYJBg)
+  - [Discrete Fourier Transform, Part 3 by Steven Brunton](https://youtu.be/Ktkm5KCryPw)
