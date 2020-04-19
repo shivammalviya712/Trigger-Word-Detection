@@ -12,3 +12,5 @@
   - [Discrete Fourier Transform, Part 1 by Steven Brunton](https://youtu.be/bhxDXab0ffg)
   - [Discrete Fourier Transform, Part 2 by Steven Brunton](https://youtu.be/PsEsMIPYJBg)
   - [Discrete Fourier Transform, Part 3 by Steven Brunton](https://youtu.be/Ktkm5KCryPw)
+  - [matplotlib.pyplot.specgram](https://matplotlib.org/api/_as_gen/matplotlib.pyplot.specgram.html)
+  - [Stackoverflow understanding parameters of specgram](https://stackoverflow.com/questions/29321696/what-is-a-spectrogram-and-how-do-i-set-its-parameters)
