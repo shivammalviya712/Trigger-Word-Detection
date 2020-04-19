@@ -1,5 +1,10 @@
 # Real-Time-Trigger-Word-Detection
 
+### Spectrogram
+<p align="center">
+  <img src = "images/train1_spectrogram.png">
+</p>
+
 ## References
 
 - General guidance
