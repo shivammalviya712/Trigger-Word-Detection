@@ -25,17 +25,12 @@ class Dataset:
         """    
         self.wake_sound = settings.wake_sound
         self.Ty = settings.Ty
-        self.seed = settings.seed
-
+        self.m = settings.m
         self.positives = []
         self.negatives = []
         self.backgrounds = []
-        self.background_len = None
-
-        self.load_dataset()
-        
-        self.background_len = len(self.backgrounds[0])
-
+        self.X = []
+        self.Y = []
 
     def graph_spectrogram(self, wav_file):
         """Plot the spectrogram for the given wav file.
@@ -57,12 +52,29 @@ class Dataset:
             pxx, freqs, bins, im = plt.specgram(x=x[:, 0], NFFT=nfft, Fs=fs)
         else:
             print('The audio has more than 2 channels')       
-        plt.show()
+        plt.show(block=False)
+        plt.pause(0.001)
 
         return  pxx
 
 
-    def load_dataset(self):  
+    def match_target_amplitude(self, sound, target_dBFS):
+        """It standardise volume of the audio clip.
+
+        # Arguments
+            sound: The audio clip to be standardise.
+            target_dBFS: The standardize amplitude in dBFS.
+
+        # Returns
+            sound: The standardise audio clip.
+        """
+        change_in_dBFS = target_dBFS - sound.dBFS
+        sound = sound.apply_gain(change_in_dBFS)
+        
+        return sound
+
+
+    def load_raw_dataset(self):  
         """Load the dataset.
 
         # Variables
@@ -98,7 +110,7 @@ class Dataset:
 
     def get_random_time_segment(self, segment_len):
         """Gets random time segment of length 
-        segment_len in the audio clip of background_len.
+        segment_len in the background audio.
 
         # Arguments
             segment_len: The length of the required random segment.
@@ -110,7 +122,7 @@ class Dataset:
         # Distribution is [low, high)
         # One is added because later, one will be subracted from segment_end. 
         segment_start = np.random.randint(
-            low=0, high=self.background_len-segment_len+1)
+            low=0, high=len(self.backgrounds[0])-segment_len+1)
         # One is subracted because the starting will also be included.
         segment_end = segment_start + segment_len - 1
 
@@ -183,27 +195,28 @@ class Dataset:
             segment_end: Integer
                 The end time of the segment in milliseconds.
         """
-        segment_end_y = int(segment_end*Ty/10000)
-        for i in range(segment_end_y+1, segment_end_y+51):
-            if i < self.Ty:
-                y[0, i] = 1
+        segment_end_y = int(segment_end*self.Ty/10000)
+        for j in range(segment_end_y+1, segment_end_y+51):
+            if j < self.Ty:
+                y[0, j] = 1
 
     
-    def create_training_examples(self, background):
+    def create_training_example(self, background, i):
         """Creates a training example with a 
-        given background, activates, and negatives.
+        given background, positives, and negatives.
     
         # Arguments
             background: Audio
                 A audio clip of background noise.
+            i: Integer 
+                Index of training example.
 
         # Returns
             x: 
                 The spectrogram of the training example.
             y: 
                 The label at each time step of the spectrogram.
-        """
-        np.random.seed(self.seed) 
+        """ 
         # Make the background quitter.
         background = background - 20       
         y = np.zeros((1, self.Ty))
@@ -211,28 +224,54 @@ class Dataset:
         
         # Select 0-4 random "positives" audio clips.
         number_of_positives = np.random.randint(low=0, high=5)
-        random_indices = np.random.randint(low=0, high=len(positives),
+        random_indices = np.random.randint(low=0, high=len(self.positives),
                                            size=number_of_positives)
-        random_positives = [positives[i] for i in random_indices]
+        random_positives = [self.positives[j] for j in random_indices]
         # Inserting the random_positives in the background.
         for random_positive in random_positives:
             background, segment_time = self.insert_audio_clip(
-                backgound, random_positive, previous_segments)
+                background, random_positive, previous_segments)
             segment_start, segment_end = segment_time
-            y = insert_ones(y, segment_end)
+            self.insert_ones(y, segment_end)
         
         # Select 0-2 random negtives audio clips.
         number_of_negatives = np.random.randint(low=0, high=3)
-        random_indices = np.random.randint(low=0, high=len(negatives), 
+        random_indices = np.random.randint(low=0, high=len(self.negatives), 
                                            size=number_of_negatives)
-        random_negatives = [negatives[i] for i in random_indices]
+        random_negatives = [self.negatives[j] for j in random_indices]
         # Inserting the random_negatives in the background.
         for random_negative in random_negatives:
             background, _ = self.insert_audio_clip(
                 background, random_negative, previous_segments)
         
-        # TODO: Match Target Amplitude
-        # background = match_target_amplitude(background, -20.0)
-        # CONTINUE ..........................................
-        # .............................
-            
+        background = self.match_target_amplitude(background, -20.0)
+        file_handle = background.export('./dataset/' + self.wake_sound + '/train/train' + str(i) + '.wav', format='wav')
+        print('File (train' + str(i) + '.wav) was saved in your directory.')
+        x = self.graph_spectrogram('./dataset/' + self.wake_sound + '/train/train' + str(i) + '.wav')
+
+        return x, y
+
+
+    def create_training_examples(self):
+        """It creates the whole training data
+        and saves it in X.npy and Y.npy. 
+        """
+        self.load_raw_dataset()
+        for i in range(self.m):
+            random_index = np.random.randint(low=0, high=len(self.backgrounds))
+            background = self.backgrounds[random_index]
+            x, y = self.create_training_example(background, i)
+            self.X.append(x.T)
+            self.Y.append(y.T)
+        self.X = np.array(self.X)
+        self.Y = np.array(self.Y)
+        np.save(file='./dataset/' + self.wake_sound + '/train/X.npy', arr=self.X)
+        np.save(file='./dataset/' + self.wake_sound + '/train/Y.npy', arr=self.Y)
+
+    
+    def load_dataset(self):
+        """Loads the dataset prepared and saved 
+        in advance in the file X.npy and Y.npy
+        """
+        self.X = np.load(file='./dataset/' + self.wake_sound + '/train/X.npy')
+        self.Y = np.load(file='./dataset/' + self.wake_sound + '/train/Y.npy')

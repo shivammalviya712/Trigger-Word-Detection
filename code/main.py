@@ -9,7 +9,8 @@ from settings import Settings
 wake_sound = 'activate'
 settings = Settings(wake_sound=wake_sound)
 data = Dataset(settings=settings)
+data.load_dataset()
 
 # Check
-print(len(data.backgrounds[0]))
-
+print(data.X.shape)
+print(data.Y.shape)

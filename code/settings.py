@@ -6,7 +6,7 @@ class Settings:
     the attributes of this class. 
     """
 
-    def __init__(self, wake_sound, Ty=1365, seed=18):
+    def __init__(self, wake_sound, Ty=1375, m=26):
         """
         # Arguments
             wake_Sound: String
@@ -14,10 +14,9 @@ class Settings:
                 to use activate or snap dataset.
             Ty: Integer
                 The length of the output.
-            seed: Integer
-                The seed for generating the random numbers.
+            m: Number of training examples to be created.
         """
         self.wake_sound = wake_sound
         self.Ty = Ty
-        self.seed = seed
+        self.m = m
 
