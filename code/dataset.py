@@ -32,7 +32,7 @@ class Dataset:
         self.X = []
         self.Y = []
 
-    def graph_spectrogram(self, wav_file):
+    def graph_spectrogram(self, wav_file, plotting):
         """Plot the spectrogram for the given wav file.
 
         # Arguments
@@ -45,15 +45,20 @@ class Dataset:
         """
         fs, x = wavfile.read(wav_file)
         nfft = 200
+        noverlap = 120
         nchannels = x.ndim
         if nchannels == 1:
-            pxx, freqs, bins, im = plt.specgram(x=x, NFFT=nfft, Fs=fs)
+            pxx, freqs, bins, im = plt.specgram(
+                x=x, NFFT=nfft, Fs=fs, noverlap=noverlap)
         elif nchannels == 2:
-            pxx, freqs, bins, im = plt.specgram(x=x[:, 0], NFFT=nfft, Fs=fs)
+            pxx, freqs, bins, im = plt.specgram(
+                x=x[:, 0], NFFT=nfft, Fs=fs, noverlap=noverlap)
         else:
             print('The audio has more than 2 channels')       
-        plt.show(block=False)
-        plt.pause(0.001)
+        
+        if plotting==True:
+            plt.show(block=False)
+            plt.pause(0.001)
 
         return  pxx
 
@@ -245,9 +250,11 @@ class Dataset:
                 background, random_negative, previous_segments)
         
         background = self.match_target_amplitude(background, -20.0)
-        file_handle = background.export('./dataset/' + self.wake_sound + '/train/train' + str(i) + '.wav', format='wav')
+        file_handle = background.export(
+            './dataset/' + self.wake_sound + '/train/train' + str(i) + '.wav', format='wav')
         print('File (train' + str(i) + '.wav) was saved in your directory.')
-        x = self.graph_spectrogram('./dataset/' + self.wake_sound + '/train/train' + str(i) + '.wav')
+        x = self.graph_spectrogram(
+            wav_file='./dataset/' + self.wake_sound + '/train/train' + str(i) + '.wav', plotting=False)
 
         return x, y
 
