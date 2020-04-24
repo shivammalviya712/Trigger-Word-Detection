@@ -5,7 +5,8 @@ import warnings
 warnings.filterwarnings(action='ignore', category=FutureWarning)
 
 from keras.callbacks import ModelCheckpoint
-from keras.models import Model, load_model, Sequential
+from keras.models import Model, Sequential
+from keras.models import load_model as load
 from keras.layers import Dense, Activation, Dropout, Input, Masking, TimeDistributed, LSTM, Conv1D
 from keras.layers import GRU, Bidirectional, BatchNormalization, Reshape
 from keras.optimizers import Adam
@@ -45,3 +46,22 @@ def model(settings):
     model = Model(inputs=X_input, outputs=X)
 
     return model
+
+
+def load_model():
+    """Loads a pretrained model."""
+    model = load('./model/model_trained.h5')
+    return model
+
+
+def train_model(model, data):
+    """Fit the model on the given data.
+    
+    # Arguments
+        model: An instance of class Model
+        data: An instance of class Dataset
+    """
+    opt = Adam(lr=0.0001, beta_1=0.9, beta_2=0.999, decay=0.01)
+    model.compile(loss='binary_crossentropy', optimizer=opt, metrics=["accuracy"])
+    model.fit(data.X, data.Y, batch_size=5, epochs=1)
+    model.save('./model/model_trained.h5')

@@ -31,6 +31,8 @@ class Dataset:
         self.backgrounds = []
         self.X = []
         self.Y = []
+        self.X_dev = []
+        self.Y_dev = []
 
     def graph_spectrogram(self, wav_file, plotting):
         """Plot the spectrogram for the given wav file.
@@ -275,10 +277,12 @@ class Dataset:
         np.save(file='./dataset/' + self.wake_sound + '/train/X.npy', arr=self.X)
         np.save(file='./dataset/' + self.wake_sound + '/train/Y.npy', arr=self.Y)
 
-    
+
     def load_dataset(self):
         """Loads the dataset prepared and saved 
         in advance in the file X.npy and Y.npy
         """
         self.X = np.load(file='./dataset/' + self.wake_sound + '/train/X.npy')
         self.Y = np.load(file='./dataset/' + self.wake_sound + '/train/Y.npy')
+        self.X_dev = np.load(file='./dataset/' + self.wake_sound + '/dev/X_dev.npy')
+        self.Y_dev = np.load(file='./dataset/' + self.wake_sound + '/dev/Y_dev.npy')
