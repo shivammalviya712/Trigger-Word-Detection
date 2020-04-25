@@ -1,8 +1,22 @@
-"""All the crazy ideas are tested here."""
+"""All the crazy ideas are 
+brought to life, in this file
+"""
 
-from pydub import AudioSegment
-from pydub.playback import play
+
+class Test:
+    def __init__(self, a):
+        self.a = a
+        self.a.a = 4
 
 
-train = AudioSegment.from_wav('./dataset/activate/train/train2.wav')
-play(train)
+class A:
+    def __init__(self):
+        self.a = 2
+
+
+a = A()
+test = Test(a)
+print(a.a)
+print(test.a.a)
+
+
