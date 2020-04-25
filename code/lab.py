@@ -2,21 +2,14 @@
 brought to life, in this file
 """
 
-
-class Test:
-    def __init__(self, a):
-        self.a = a
-        self.a.a = 4
+import sounddevice as sd
 
 
-class A:
-    def __init__(self):
-        self.a = 2
-
-
-a = A()
-test = Test(a)
-print(a.a)
-print(test.a.a)
-
-
+duration = 10
+fs = 44100
+print('Start')
+myrecording = sd.rec(frames = int(duration*fs), samplerate=fs, channels=2)
+sd.wait()
+sd.play(myrecording, fs)
+sd.wait()
+print('Good to go man')

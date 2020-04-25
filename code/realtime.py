@@ -1,8 +1,10 @@
 """Implement the model in real time."""
 
-
+# Third party modules
 import numpy as np
+import sounddevice as sd
 from pydub import AudioSegment
+
 
 class Realtime:
     """TODO"""
@@ -10,8 +12,28 @@ class Realtime:
         """TODO"""
         self.data = data
         self.model = model
-        self.chime = AudioSegment.from_wav(...............)
+        self.chime = AudioSegment.from_wav('./dataset/activate/chime/chime.wav')
         self.Ty = settings.Ty
+        self.Tnew = settings.Tnew
+        self.fs = settings.fs
+
+        sd.default.samplerate = self.fs
+        sd.default.channels = 2
+
+    
+    def record(self):
+        """It records the audio
+        from the inbuilt microphone.
+        
+        # Returns
+            audio: ndarray
+                The audio recorded.
+        """
+        audio = sd.rec(frames=int(self.Tnew*self.fs))
+        # To be continued........................
+        # ..........................................
+        #........................................
+        #...................................
 
     
     def detect_triggerword(self, filename):
@@ -30,6 +52,7 @@ class Realtime:
 
 
     def chime_on_activate(self, filename, predictions, threshold):
+        """TODO"""
         audio_clip = AudioSegment.from_wav(filename)
         consecutive_timesteps = 0
         for i in range(self.Ty):
