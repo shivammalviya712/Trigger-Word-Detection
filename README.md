@@ -1,10 +1,11 @@
 # Real-Time-Trigger-Word-Detection
-
+---
 ### Spectrogram
 <p align="center">
   <img src = "images/train1_spectrogram.png">
 </p>
 
+---
 ## References
 
 - General guidance
@@ -19,3 +20,6 @@
   - [Discrete Fourier Transform, Part 3 by Steven Brunton](https://youtu.be/Ktkm5KCryPw)
   - [matplotlib.pyplot.specgram](https://matplotlib.org/api/_as_gen/matplotlib.pyplot.specgram.html)
   - [Stackoverflow understanding parameters of specgram](https://stackoverflow.com/questions/29321696/what-is-a-spectrogram-and-how-do-i-set-its-parameters)
+
+- Real Time Implementation
+  - [SoundDevice](https://python-sounddevice.readthedocs.io/en/0.3.15/usage.html#playback)
