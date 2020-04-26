@@ -22,4 +22,5 @@
   - [Stackoverflow understanding parameters of specgram](https://stackoverflow.com/questions/29321696/what-is-a-spectrogram-and-how-do-i-set-its-parameters)
 
 - Real Time Implementation
-  - [SoundDevice](https://python-sounddevice.readthedocs.io/en/0.3.15/usage.html#playback)
+  - [SoundDevice Module](https://python-sounddevice.readthedocs.io/en/0.3.15/usage.html#playback)
+  - [Keyboard Module](https://pypi.org/project/keyboard/)
