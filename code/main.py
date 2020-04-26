@@ -1,17 +1,29 @@
 """All the files are integrated here."""
 
 # Local files
+import keyboard
+import matplotlib.pyplot as plt
 from dataset import Dataset
 from settings import Settings 
 from model import model, load_model, train_model
+from realtime import Realtime
 
-# Initialise settings
-wake_sound = 'activate'
-settings = Settings(wake_sound=wake_sound)
-data = Dataset(settings=settings)
-data.load_dataset()
+
+print('Everything is successfully imported')
+settings = Settings()
+print('Settings is done')
 model = load_model()
-loss, acc = model.evaluate(data.X_dev, data.Y_dev)
+print('Model is loaded')
+realtime = Realtime(settings)
+print('Realtime is done')
 
-# Check
-print("Dev set accuracy = ", acc)
+print('start')
+while True:
+    if keyboard.is_pressed('q'):
+        break
+
+    realtime.refresh_audio()
+    y = model.predict(realtime.x)
+    realtime.check_trigger(y)
+    plt.show(block=False)
+    plt.pause(0.1)

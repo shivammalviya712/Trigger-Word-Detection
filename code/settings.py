@@ -6,10 +6,9 @@ class Settings:
     the attributes of this class. 
     """
 
-    def __init__(self, wake_sound, Ty=1375, Tx=5511, 
-                 fs=44100, n_freq=101, m=26, Tnew=0.25):
+    def __init__(self):
         """
-        # Arguments
+        # Attributes
             wake_Sound: String
                 It tells whether we are going 
                 to use activate or snap dataset.
@@ -27,11 +26,19 @@ class Settings:
             Tnew: Integer
                 Time in seconds of new audio
                 added to the 10sec frame.
+            duration: Integer
+                Time in seconds to be feed into
+                the model.
+            threshold: Integer
+                The value of y above which model
+                will predict it to be a trigger.
         """
-        self.wake_sound = wake_sound
-        self.Ty = Ty
-        self.Tx = Tx
-        self.fs = fs
-        self.n_freq = n_freq
-        self.m = m
-        self.Tnew = Tnew
+        self.wake_sound = 'activate'
+        self.Ty = 1375
+        self.Tx = 5511
+        self.fs = 44100
+        self.n_freq = 101
+        self.m = 26
+        self.Tnew = 0.25
+        self.duration = 10
+        self.threshold = 0.7
