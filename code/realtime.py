@@ -5,10 +5,11 @@ import matplotlib.pyplot as plt
 import numpy as np
 import sounddevice as sd
 from pydub import AudioSegment
+from pydub.playback import play
 
 
 class Realtime:
-    """TODO"""
+    """Implement the modle in real time."""
     def __init__(self, settings):
         """Intiallise the attributes."""
         self.Ty = settings.Ty
@@ -18,6 +19,7 @@ class Realtime:
         self.fs = settings.fs
         self.duration = settings.duration
         self.threshold = settings.threshold
+        self.new_x = None
         self.chime = AudioSegment.from_wav(
             './dataset/activate/chime/chime.wav')
         self.x = np.zeros((1, self.Tx, self.n_freq))
@@ -31,11 +33,11 @@ class Realtime:
         """It adds spectrogram of new audio 
         to the x.
         """
-        sd.wait()
-        new_x = self.spectrogram(self.new_audio).T
         self.new_audio = sd.rec(frames=int(self.Tnew * self.fs))
-        self.x[0, :self.Tx-len(new_x)] = self.x[0, len(new_x):]
-        self.x[0, self.Tx-len(new_x):] = new_x
+        sd.wait()
+        self.new_x = self.spectrogram(self.new_audio).T
+        self.x[0, :self.Tx-len(self.new_x)] = self.x[0, len(self.new_x):]
+        self.x[0, self.Tx-len(self.new_x):] = self.new_x
 
 
 
@@ -81,6 +83,9 @@ class Realtime:
                 Prediction of our model for
                 Realtime.x as the input.
         """
-        plt.plot(y[0,:,0])
-        plt.ylabel('probability')
+        for i in range(self.Ty-1, -1, -1):
+            if y[0, i] > 1e-02:
+                print(y[0, i])
+                play(self.chime)
+                break
             

@@ -39,6 +39,6 @@ class Settings:
         self.fs = 44100
         self.n_freq = 101
         self.m = 26
-        self.Tnew = 0.25
+        self.Tnew = 10
         self.duration = 10
-        self.threshold = 0.7
+        self.threshold = 0.4
