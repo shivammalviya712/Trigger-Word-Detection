@@ -1,10 +1,10 @@
-# Real-Time-Trigger-Word-Detection
+# Trigger-Word-Detection
 ---
 
 ## Introduction
 
 <p align='center'>
-  <img src='.images/ai_assistant.jpg'/>
+  <img src='./images/ai_assistant.jpg'/>
 </p>
 
 - This implementation was inspired by the Deep Learning Specialization on Coursera by _Andrew Ng_.
@@ -27,7 +27,7 @@
 
 > **Time to cook some data.**
 <p align='center'>
-  <img src='.images/data_chef.jpg'/>
+  <img src='./images/data_chef.jpg'/>
 </p>
 
 - We have 3 types of audio recording.
