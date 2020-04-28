@@ -9,7 +9,7 @@ class Settings:
     def __init__(self):
         """
         # Attributes
-            wake_Sound: String
+            wake_sound: String
                 It tells whether we are going 
                 to use activate or snap dataset.
             Ty: Integer

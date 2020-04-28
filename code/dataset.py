@@ -34,7 +34,7 @@ class Dataset:
         self.X_dev = []
         self.Y_dev = []
 
-    def graph_spectrogram(self, wav_file, plotting):
+    def graph_spectrogram(self, wav_file, plotting=False):
         """Plot the spectrogram for the given wav file.
 
         # Arguments

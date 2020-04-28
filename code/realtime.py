@@ -84,8 +84,6 @@ class Realtime:
                 Realtime.x as the input.
         """
         for i in range(self.Ty-1, -1, -1):
-            if y[0, i] > 1e-02:
-                print(y[0, i])
+            if y[0, i] > self.threshold:
                 play(self.chime)
-                break
-            
+                break    

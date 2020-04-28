@@ -2,9 +2,6 @@
 
 # Local files
 import keyboard
-import matplotlib.pyplot as plt
-import sounddevice as sd
-from dataset import Dataset
 from settings import Settings 
 from model import model, load_model, train_model
 from realtime import Realtime
@@ -24,8 +21,6 @@ while True:
         break
 
     realtime.refresh_audio()
-    sd.play(realtime.new_audio)
-    sd.wait()
     y = model.predict(realtime.x)
     realtime.check_trigger(y)
     print('Done')
