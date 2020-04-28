@@ -13,17 +13,17 @@
 - We have trained our model for the trigger word **'activate'**.
 ---
 
-## Overview
+## Sections
 
-- Data synthesis
-- Data preprocessing
-- Model
-- Required Modules
-- References
+- [Data synthesis](#data-synthesis)
+- [Data preprocessing](#data-preprocessing)
+- [Model](#model)
+- [Required Modules](#required-modules)
+- [References](#references)
 
 ---
 
-## Data Synthesis
+## [Data Synthesis](#sections)
 
 > **Time to cook some data.**
 <p align='center'>
@@ -40,7 +40,7 @@
 - Backgrounds are the recordings of the noises present in different enviroments.
 - To generate training data, we randomly pick audio from positives and negatives, and overlay them on the background noises.
 ---
-## Data Preprocessing
+## [Data Preprocessing](#sections)
 
 > **Let's go deeper**.
 <p align='center'>
@@ -61,7 +61,7 @@
 
 ---
 
-## Model
+## [Model](#sections)
 
 > **Let's have a look at our model.**
 <p align='center'>
@@ -77,6 +77,11 @@
 - GRUs(Gated recurrent units) are improved version of standard recurrent neural network. GRU aims to solve the vanishing gradient problem which comes with a standard recurrent neural network.
 
 - Let's view the summary of our model.
+
+```python
+model.summary()
+```
+
 <p align='center'>
   <img src='./images/model2.JPG'/>
 </p>
@@ -93,7 +98,7 @@
   
 ---
 
-## Required Modules
+## [Required Modules](#sections)
 
 <p align='center'>
   <img src='./images/modules.JPG'>
@@ -101,7 +106,7 @@
 
 ---
 
-## References
+## [References](#sections)
 
 - General guidance
   - [Introduction to how Alexa, Siri and Google wake up when you call their name](https://medium.com/x8-the-ai-community/ok-google-tell-me-how-trigger-word-detection-works-f6f877e2cd8b)
