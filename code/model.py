@@ -1,5 +1,6 @@
 """This file contains GRU model."""
 
+import tensorflow as tf
 import warnings
 # Disabling Future Warnings0
 warnings.filterwarnings(action='ignore', category=FutureWarning)
@@ -50,7 +51,7 @@ def model(settings):
 
 def load_model():
     """Loads a pretrained model."""
-    model = load('./model/model_trained.h5')
+    model = load('./model/model.h5')
     return model
 
 
@@ -62,6 +63,7 @@ def train_model(model, data):
         data: An instance of class Dataset
     """
     opt = Adam(lr=0.0001, beta_1=0.9, beta_2=0.999, decay=0.01)
-    model.compile(loss='binary_crossentropy', optimizer=opt, metrics=["accuracy"])
+    model.compile(loss='binary_crossentropy', optimizer=opt,
+                  metrics=[tf.keras.metrics.BinaryAccuracy(threshold=0.1)])
     model.fit(data.X, data.Y, batch_size=5, epochs=1)
     model.save('./model/model_trained.h5')
